@@ -18,8 +18,7 @@ public class Code {
     }
 
     public void getRandomCode(){
-        charArray = "VGRY".toCharArray();
-        //charArray = SecretCodeGenerator.getInstance().getNewSecretCode().toCharArray();
+        charArray = SecretCodeGenerator.getInstance().getNewSecretCode().toCharArray();
     }
 
 }
