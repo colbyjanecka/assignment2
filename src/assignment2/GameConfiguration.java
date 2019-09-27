@@ -1,10 +1,12 @@
+/* EE422C Assignment #2 submission by
+ * Colby Janecka
+ * CDJ2326
+ */
+
 package assignment2;
 
-/* EE422C Assignment #2
- * Fall 2017
- */
-public class GameConfiguration {
-	public static final int guessNumber = 12;
-	public static final String[] colors = {"B","G","O","P","R","Y"};
-	public static final int pegNumber = 4;
+class GameConfiguration {
+	static final int guessNumber = 12;
+	static final String[] colors = {"B","G","O","P","R","Y"};
+	static final int pegNumber = 4;
 }

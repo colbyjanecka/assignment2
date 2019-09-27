@@ -1,23 +1,30 @@
+/* EE422C Assignment #2 submission by
+ * Colby Janecka
+ * CDJ2326
+ */
+
 package assignment2;
 
-public class Feedback {
+class Feedback {
 
+    // Feedback class instance variables:
+    private int whitePegAmount;
+    private int blackPegAmount;
 
-    int whitePegAmount;
-    int blackPegAmount;
-
+    //default constructor:
     Feedback() {
         whitePegAmount = 0;
         blackPegAmount = 0;
     }
 
+    // constructor which takes in a guess and secret, then sets the white and black peg amounts for that guess.
     Feedback(Code guess, Code secret){
 
         whitePegAmount = 0;
         blackPegAmount = 0;
         char [] guessTemp = guess.charArray.clone();
         char [] secretTemp = secret.charArray.clone();
-        char dash = new Character('-');
+        char dash = '-';
 
         for(int i = 0; i < GameConfiguration.pegNumber; i++) {
 
@@ -44,13 +51,12 @@ public class Feedback {
 
     }
 
+    // perfectGuess returns true if guessed code is identical to the secret code
     boolean perfectGuess(){
-        if(blackPegAmount == GameConfiguration.pegNumber){
-            return(true);
-        }
-        return(false);
+        return blackPegAmount == GameConfiguration.pegNumber;
     }
 
+    // feedbackString method creates readable string containing amount of white and black pegs
     String feedbackString (){
         String str1, str2;
 
@@ -63,9 +69,9 @@ public class Feedback {
         return(resText + str1 + str2);
     }
 
+    // toStringShorthand is used for saving a more dense version of the move history
     String toStringShorthand() {
-        String result = (blackPegAmount + "B_" + whitePegAmount + "W");
-        return result;
+        return (blackPegAmount + "B_" + whitePegAmount + "W");
     }
 
 }

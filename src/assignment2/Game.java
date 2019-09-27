@@ -1,63 +1,75 @@
+/* EE422C Assignment #2 submission by
+ * Colby Janecka
+ * CDJ2326
+ */
+
 package assignment2;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.Scanner;
 
-public class Game {
+class Game {
+
+    // Defining instance variable:
 
     private boolean testMode = false;
     private Code secretCode = new Code();
-    Scanner input = new Scanner(System.in);
-    int remainingGuesses;
-    int pegNumber = GameConfiguration.pegNumber;
-    String [] colors = GameConfiguration.colors;
-    Move currentMove;
-    Board board = new Board();
-    boolean winner;
+    private Scanner input = new Scanner(System.in);
+    private int remainingGuesses;
+    private String [] colors = GameConfiguration.colors;
+    private Board board;
+    private boolean winner;
 
-
+    // Default Game constructor
     Game(){
         welcomeMessage();
     }
 
+    // runGame method handles resetting values and getting new secret code for each time the user plays
     void runGame(){
+
         winner = false;
         remainingGuesses = GameConfiguration.guessNumber;
-        secretCode.getRandomCode();
         System.out.println("\nGenerating secret code ... ");
+        secretCode.getRandomCode();
+        board  = new Board();
+
         if(testMode){
-            System.out.print("Secret Code: " + secretCode.codeAsString() + "\n");
+            System.out.print("Secret Code: " + secretCode.codeAsString() + "\n");   // outputs secret code in testMode
         }
 
         while(remainingGuesses!=0){
-
             iterateTurn();
-
         }
+
         if(winner) {
             System.out.println("You win !! \n");
-        }
-        else {
+        } else {
             System.out.println("Sorry, you are out of guesses. You loose. \n");
 
         }
-        String answer = "";
+
+        String answer;
+        System.out.print("Are you ready for another game? (Y/N) : ");
+        answer = input.nextLine().toLowerCase();
+
         while(!answer.equals("y") && !answer.equals("n")) {
-            System.out.println("Are you ready for another game? (Y/N) : ");
+
+            System.out.println("Invalid Input. \n");
+            System.out.print("Are you ready for another game? (Y/N) : ");
             answer = input.nextLine().toLowerCase();
         }
+
         if (answer.equals("y")) {
             this.runGame();
         }
 
     }
 
-    void iterateTurn(){
+    // iterateTurn takes in a guess, calculates peg feedback, saves move history, and outputs results
+    private void iterateTurn(){
 
         printRemainingGuesses();
-        currentMove = new Move();
+        Move currentMove = new Move();
         currentMove.guess = getNewGuess();
 
         // Calculate pegs, output results, decrement remaining guesses:
@@ -71,35 +83,35 @@ public class Game {
         if(currentMove.feedback.perfectGuess()){
             remainingGuesses = 0;
             winner = true;
-        }
-        else {
+        } else {
             remainingGuesses -= 1;          // Decrement remaining guesses
         }
 
 
     }
 
-    Code getNewGuess(){
+    // getNewGuess takes in an input and validates it as a legal guess or request to see history
+    private Code getNewGuess(){
+
         System.out.print("What is your next guess? \nType in the characters for your guess and press enter: ");
         String s = input.nextLine();
 
         if (s.toLowerCase().equals("history")) {
             board.outputHistory();
 
-        }
-        else if(!isValidGuess(s)){
+        } else if(!isValidGuess(s)){
             System.out.print(s + " -> INVALID GUESS\n\n");
             return(getNewGuess());
-        }
-        else {
-            Code newGuess = new Code(s);
-            return (newGuess);
+        } else {
+            return (new Code(s));
         }
         return(getNewGuess());
 
     }
 
-    boolean isValidGuess(String s){
+    // isValidGuess is a helper function that checks the validity of a given guess
+    private boolean isValidGuess(String s){
+        int pegNumber = GameConfiguration.pegNumber;
         if(s.length() != pegNumber){
             return(false);
         }
@@ -112,7 +124,8 @@ public class Game {
         return(true);
     }
 
-    boolean isCharInStrArray(String [] s, char ch){
+    // isCharInStrArray scans a given array of strings to find any instance of char c within
+    private boolean isCharInStrArray(String[] s, char ch){
         boolean result = false;
         for(String str : s){
             if(str.contains(String.valueOf(ch))){
@@ -123,16 +136,19 @@ public class Game {
         return(result);
     }
 
+    // setTestMode takes in an argument, and sets the test mode of the game.
     void setTestMode(String s){
         if(Integer.parseInt(s) == 1){
             testMode = true;
         }
     }
 
+    // printRemainingGuesses outputs the amount of guesses the user has left to the console
     private void printRemainingGuesses(){
         System.out.println("\nYou have " + remainingGuesses + " guesses lefts.");
     }
 
+    // welcomeMessage displays the initial game instructions when the program starts.
     private void welcomeMessage() {
 
         System.out.println("Welcome to Mastermind.  Here are the rules.\n" +
@@ -158,9 +174,10 @@ public class Game {
 
     }
 
-    public boolean isReadyToPlay(){
+    // isReadyToPlay asks the user if he is ready to play and returns boolean value with the answer
+    boolean isReadyToPlay(){
         System.out.print("You have 12 guesses to figure out the secret code or you lose the\n" +
-                "game.  Are you ready to play? (Y/N):");
+                "game.  Are you ready to play? (Y/N) : ");
         String in = input.nextLine();
         if (in.toLowerCase().equals("y")){
             return(true);

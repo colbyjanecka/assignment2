@@ -1,3 +1,8 @@
+/* EE422C Assignment #2 submission by
+ * Colby Janecka
+ * CDJ2326
+ */
+
 package assignment2;
 
 import java.util.Random;
