@@ -93,7 +93,7 @@ class Game {
     // getNewGuess takes in an input and validates it as a legal guess or request to see history
     private Code getNewGuess(){
 
-        System.out.print("What is your next guess? \nType in the characters for your guess and press enter: \n" +
+        System.out.print("What is your next guess? \nType in the characters for your guess and press enter. \n" +
                 "Enter guess: ");
         String s = input.nextLine();
 
